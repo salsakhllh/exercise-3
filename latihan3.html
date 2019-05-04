@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exercise3</title>
+        <link rel="stylesheet" href="assets/css/css.css">
+        <script src="assets/js/jQuery.js"></script>
+        <!-- <script src="data.js"></script> -->
+        <script src="assets/js/axios.js"></script>
+        <script src="assets/js/materialize.js"></script>
+    </head>
+    <body style = "background: url(one.jpg) no-repeat center center fixed; background-size:cover; margin:50px;">
+        <div class="judul">
+            <marquee>Assalamu'alaikum</marquee>
+            <img class="bulat" src="assets/salsa.jpg">
+            <p class="text">Hello!</p>
+            </img>
+        </div>
+        <div  style="display: flex; justify-content: center;">
+            <div id="content">
+                <table border="10px" id="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Episode_id</th>
+                            <th>Opening_crwal</th>
+                            <th>Director</th>
+                            <th>Producer</th>
+                            <th>Planet</th>
+                            <th>Starships</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody id="tabel">
+                        
+                    </tbody>
+                </table>
+                <script>
+                    var apiSwapi = "https://swapi.co/api/films/";
+
+                    function getData(){
+                        return axios.get(apiSwapi)
+                        .then(response => {
+                            return response.data;
+                            console.log('Data ditemukan');
+                        })
+                        .catch(function(error){
+                            console.log('Data tidak ditemukan');
+                        })
+                    }
+
+                    $(document).ready(function(){
+                        $("#planet").on("keyup", function() {
+                            var value = $(this).val().toLowerCase();
+                            $("#tabel tr").filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                        });
+                    });
+
+                    getData().then(data => {
+                        data.results.forEach(li => {
+                            document.querySelector('#tabel').insertAdjacentHTML('beforeend',
+                            '<td>'+li.title+'</td>'
+                            +'<td>'+li.episode_id+'</td>'
+                            +'<td>'+li.opening_crawl+'</td>'
+                            +'<td>'+li.director+'</td>'
+                            +'<td>'+li.producer+'</td>'
+                            +'<td>'+li.planet+'</td>'
+                            +'<td>'+li.starship+'</td>')
+                        });
+                    })                    
+                </script>
+            </div>
+        </div>
+    </body>
+</html>
